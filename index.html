@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>光子玩家社区 | 导航站</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            primary: '#0044D9', // The core blue
+                            lighter: '#1a5cff', // Visual adjustment for "too dark" perception
+                            cyan: '#73F1FF',
+                            deep: '#000C32',
+                            indigo: '#19109F',
+                            gold: '#FFD49D',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --brand-primary: #0044D9;
+            --brand-cyan: #73F1FF;
+            --brand-deep: #000C32;
+            --brand-indigo: #19109F;
+            --brand-gold: #FFD49D;
+            
+            /* Lighter Glass variables */
+            --glass-bg: rgba(0, 68, 217, 0.15); 
+            --glass-border: rgba(115, 241, 255, 0.3);
+        }
+
+        body {
+            background-color: #020f2e; /* Slightly lighter than pure deep brand color */
+            color: #ffffff;
+            font-family: 'Noto Sans SC', sans-serif;
+            overflow-x: hidden;
+            /* Significantly lightened background gradients to make the Blue pop */
+            background-image: 
+                radial-gradient(circle at 50% 0%, rgba(0, 68, 217, 0.4) 0%, rgba(2, 15, 46, 1) 100%),
+                radial-gradient(circle at 80% 20%, rgba(115, 241, 255, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 20% 80%, rgba(0, 68, 217, 0.15) 0%, transparent 50%);
+            min-height: 100vh;
+        }
+
+        h1, h2, h3, .tech-font {
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 1px;
+        }
+
+        .glass-panel {
+            background: rgba(0, 40, 130, 0.3); /* Lighter blue base */
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 4px 30px rgba(0, 68, 217, 0.15);
+        }
+
+        /* Hero Section - Cleaner & Lighter */
+        .hero-poster {
+            position: relative;
+            background-image: url('https://cdn.discordapp.com/attachments/1452947232696434739/1453308324132032554/p9wi0tdA.png?ex=694cfa59&is=694ba8d9&hm=f3f8fc883df0cbe402402412a5ba2346ef9b7a66c94773b44adf4b11599141df&');
+            background-repeat: no-repeat;
+            background-position: center top;
+            background-size: cover;
+            border: none; 
+            overflow: hidden;
+            box-shadow: 0 15px 40px -10px rgba(0, 40, 130, 0.6); /* Blue-tinted shadow */
+        }
+
+        /* Overlay - Reduced darkness significantly */
+        .hero-poster::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            /* Much lighter gradient. Only dark at the very bottom for text readability. */
+            background: linear-gradient(to bottom, 
+                rgba(0, 40, 130, 0.2) 0%, 
+                rgba(0, 20, 60, 0.4) 60%, 
+                rgba(2, 15, 46, 0.9) 100%
+            );
+            backdrop-filter: saturate(110%) brightness(1.1); /* Slightly boosting brightness instead of darkening */
+            z-index: 0;
+        }
+        
+        .hero-glow-text {
+            text-shadow: 0 0 25px var(--brand-primary), 0 0 10px rgba(255,255,255,0.5);
+        }
+
+        /* Cards - Lighter and Bluer */
+        .event-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            border: 1px solid rgba(115, 241, 255, 0.25);
+            /* Using a lighter blue gradient base */
+            background: linear-gradient(170deg, rgba(0, 50, 160, 0.2) 0%, rgba(0, 20, 60, 0.6) 100%);
+        }
+        
+        .event-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 35px rgba(0, 68, 217, 0.4);
+            border-color: var(--brand-cyan);
+            background: linear-gradient(170deg, rgba(0, 68, 217, 0.3) 0%, rgba(0, 30, 80, 0.8) 100%);
+        }
+
+        /* Custom Scrollbar */
+        .custom-scroll::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scroll::-webkit-scrollbar-track {
+            background: rgba(0, 40, 130, 0.2);
+            border-radius: 4px;
+        }
+        .custom-scroll::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, var(--brand-primary), var(--brand-cyan));
+            border-radius: 4px;
+        }
+        .custom-scroll::-webkit-scrollbar-thumb:hover {
+            background: var(--brand-cyan);
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            background: rgba(2, 15, 46, 0.85);
+            backdrop-filter: blur(8px);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-content {
+            transform: scale(0.95) translateY(20px);
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            background-color: #0a1533; 
+            border: 1px solid var(--brand-cyan);
+            box-shadow: 0 0 40px rgba(0, 68, 217, 0.4);
+        }
+        
+        .modal-overlay.active .modal-content {
+            transform: scale(1) translateY(0);
+        }
+
+        /* Button Glow - Lighter Blue */
+        .btn-glow {
+            position: relative;
+            z-index: 1;
+            overflow: hidden;
+            transition: all 0.3s;
+            background: rgba(0, 68, 217, 0.9); /* Slightly more opaque/bright */
+            border: 1px solid var(--brand-cyan);
+            color: white;
+            box-shadow: 0 0 20px rgba(0, 68, 217, 0.5);
+        }
+        
+        .btn-glow::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(90deg, var(--brand-cyan), #4d8aff); /* Lighter blue gradient */
+            z-index: -1;
+            transition: opacity 0.3s;
+            opacity: 0;
+        }
+        
+        .btn-glow:hover {
+            box-shadow: 0 0 30px rgba(115, 241, 255, 0.7);
+            border-color: white;
+        }
+
+        .btn-glow:hover::before {
+            opacity: 1;
+        }
+        
+        /* Game Link Button Style */
+        .game-link-btn {
+            background: rgba(0, 68, 217, 0.15); /* Lighter base */
+            border: 1px solid rgba(115, 241, 255, 0.25);
+            transition: all 0.2s;
+        }
+        .game-link-btn:hover {
+            background: rgba(0, 68, 217, 0.5);
+            border-color: var(--brand-cyan);
+            padding-left: 1.5rem;
+            box-shadow: 0 0 20px rgba(115, 241, 255, 0.25);
+        }
+
+        /* Logo Glow */
+        .brand-logo {
+            filter: drop-shadow(0 0 8px rgba(115, 241, 255, 0.3));
+            transition: transform 0.3s ease;
+        }
+        .brand-logo:hover {
+            transform: scale(1.05);
+            filter: drop-shadow(0 0 20px rgba(115, 241, 255, 0.6));
+        }
+    </style>
+</head>
+<body class="flex flex-col items-center p-3 md:p-8 text-white">
+
+    <!-- Header / Hero Section -->
+    <header class="w-full max-w-4xl hero-poster rounded-2xl px-5 pb-6 pt-2 mb-6 md:mb-8 text-center relative z-10">
+        
+        <!-- GIF Mascot -->
+        <img src="https://cdn.discordapp.com/attachments/1452947232696434739/1453233445215010937/d5bed1728d0cfd6c.gif?ex=694cb49d&is=694b631d&hm=088cfbb6df8b47169e95f6676b01215331558dd314492e6f96956980a0bf15f3&" 
+             alt="Mascot" 
+             class="absolute bottom-0 right-0 md:right-6 w-16 md:w-32 z-20 pointer-events-none select-none">
+
+        <div class="relative z-10 flex flex-col items-center">
+            <!-- Brand Logo -->
+            <div class="w-full max-w-[50px] md:max-w-[120px] -my-1 md:-my-3 relative z-20">
+                <img src="https://cdn.discordapp.com/attachments/1452947232696434739/1453224630398746814/LOGO__--.png?ex=694cac67&is=694b5ae7&hm=ed032f5372ba079aa31f6ec63b5a15933c652a30cf375bcd356ec105a58e11cb&" 
+                     alt="LIGHTSPEED STUDIOS" 
+                     class="w-full h-auto brand-logo object-contain transform scale-100">
+            </div>
+
+            <h3 class="text-brand-cyan tracking-[0.3em] text-xs md:text-base mb-1 font-bold uppercase relative z-10 drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">Welcome Home</h3>
+            <h1 class="text-2xl md:text-5xl font-black text-white mb-4 md:mb-6 hero-glow-text relative z-10">光子头号玩家群</h1>
+            
+            <p class="text-gray-100 max-w-3xl mx-auto mb-5 md:mb-6 text-xs md:text-base leading-relaxed px-2 font-medium drop-shadow-xl relative z-10">
+                这里是光子工作室官方玩家群，加入本群，你将享有这些专属特权：
+            </p>
+
+            <!-- Privileges Grid - Lightened Backgrounds -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4 text-left max-w-3xl mx-auto mb-6 md:mb-8 relative z-10">
+                <div class="bg-brand-primary/20 backdrop-blur-md p-3 md:p-4 rounded border border-brand-cyan/40 hover:border-brand-cyan hover:bg-brand-primary/30 transition-all group shadow-sm">
+                    <span class="text-brand-cyan font-bold block mb-0.5 md:mb-1 text-sm md:text-base group-hover:text-white transition-colors">【新游先锋官】</span>
+                    <span class="text-gray-100 text-xs md:text-sm">光子新游的内测资格、抢先体验名额，将在这里优先发布和招募!</span>
+                </div>
+                <div class="bg-brand-primary/20 backdrop-blur-md p-3 md:p-4 rounded border border-brand-cyan/40 hover:border-brand-cyan hover:bg-brand-primary/30 transition-all group shadow-sm">
+                    <span class="text-brand-cyan font-bold block mb-0.5 md:mb-1 text-sm md:text-base group-hover:text-white transition-colors">【同好俱乐部】</span>
+                    <span class="text-gray-100 text-xs md:text-sm">找到和你一样热爱光子游戏的小伙伴，组队开黑、交流攻略、分享趣事。</span>
+                </div>
+                <div class="bg-brand-primary/20 backdrop-blur-md p-3 md:p-4 rounded border border-brand-cyan/40 hover:border-brand-cyan hover:bg-brand-primary/30 transition-all group shadow-sm">
+                    <span class="text-brand-cyan font-bold block mb-0.5 md:mb-1 text-sm md:text-base group-hover:text-white transition-colors">【活动福利】</span>
+                    <span class="text-gray-100 text-xs md:text-sm">群内不定期掉落各种福利:游戏道具、周边、京东卡</span>
+                </div>
+                <div class="bg-brand-primary/20 backdrop-blur-md p-3 md:p-4 rounded border border-brand-cyan/40 hover:border-brand-cyan hover:bg-brand-primary/30 transition-all group shadow-sm">
+                    <span class="text-brand-cyan font-bold block mb-0.5 md:mb-1 text-sm md:text-base group-hover:text-white transition-colors">【官方直通车】</span>
+                    <span class="text-gray-100 text-xs md:text-sm">光子未来的大型活动、线下聚会等，我们将优先招募社群小伙伴，与光子工作室团队零距离互动!</span>
+                </div>
+            </div>
+
+            <!-- Divider -->
+            <div class="w-full h-px bg-gradient-to-r from-transparent via-brand-cyan/80 to-transparent my-6 md:my-8 relative z-10 opacity-70"></div>
+
+            <h2 class="text-xl md:text-2xl font-bold text-white mb-2 md:mb-3 relative z-10 text-shadow-md">群聊规范</h2>
+            <p class="text-gray-100 max-w-2xl mx-auto mb-4 md:mb-6 text-xs md:text-sm leading-relaxed px-2 relative z-10 font-medium">
+                维护良好的社区环境，是每位光子特种兵的责任。<br class="hidden md:inline">
+                请详细阅读下方文档，共同打造和谐、有趣、硬核的游戏交流空间。
+            </p>
+            
+            <div class="relative z-30 inline-block w-auto">
+                <a href="https://docs.qq.com/doc/DUUZzWHNCY1VYY1dE?nlc=1" target="_blank" 
+                   class="btn-glow flex items-center justify-center px-6 md:px-8 py-2 md:py-3 font-bold rounded-lg group text-sm md:text-base w-full md:w-auto shadow-lg">
+                    <span>查看完整规范文档</span>
+                    <svg class="w-4 h-4 md:w-5 md:h-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Interactive Grid Section -->
+    <main class="w-full max-w-4xl grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 mb-8">
+        
+        <!-- Card 1 -->
+        <div class="glass-panel event-card rounded-xl p-5 md:p-6 flex flex-col items-center text-center h-full" onclick="openModal('king')">
+            <div class="w-12 h-12 md:w-16 md:h-16 rounded-full bg-brand-primary flex items-center justify-center mb-3 md:mb-4 shadow-[0_0_20px_rgba(0,68,217,0.7)] border border-brand-cyan/60">
+                <svg class="w-6 h-6 md:w-8 md:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"></path></svg>
+            </div>
+            <h2 class="text-lg md:text-xl font-bold text-white mb-1 md:mb-2">光子捧场王</h2>
+            <!-- Gold Accent -->
+            <p class="text-[10px] md:text-xs text-brand-deep mb-3 md:mb-4 bg-brand-gold px-2 py-1 rounded font-bold border border-white/60">HOT ACTIVITY</p>
+            <p class="text-gray-200 text-xs md:text-sm flex-grow">嗨嗨嗨，聊起来！霸榜龙王品赢神秘好礼...</p>
+            <button class="mt-3 md:mt-4 text-brand-cyan text-xs md:text-sm font-bold border-b border-brand-cyan pb-0.5 hover:text-white hover:border-white transition-colors">点击查看详情</button>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="glass-panel event-card rounded-xl p-5 md:p-6 flex flex-col items-center text-center h-full" onclick="openModal('koi')">
+            <div class="w-12 h-12 md:w-16 md:h-16 rounded-full bg-brand-primary flex items-center justify-center mb-3 md:mb-4 shadow-[0_0_20px_rgba(0,68,217,0.7)] border border-brand-cyan/60">
+                <svg class="w-6 h-6 md:w-8 md:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path></svg>
+            </div>
+            <h2 class="text-lg md:text-xl font-bold text-white mb-1 md:mb-2">光子Q群锦鲤</h2>
+            <!-- Cyan Accent -->
+            <p class="text-[10px] md:text-xs text-brand-deep mb-3 md:mb-4 bg-brand-cyan px-2 py-1 rounded font-bold border border-white/60">LUCKY DRAW</p>
+            <p class="text-gray-200 text-xs md:text-sm flex-grow">寻找天选之子，独宠一人的幸运大奖等你来拿...</p>
+            <button class="mt-3 md:mt-4 text-brand-cyan text-xs md:text-sm font-bold border-b border-brand-cyan pb-0.5 hover:text-white hover:border-white transition-colors">点击查看详情</button>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="glass-panel event-card rounded-xl p-5 md:p-6 flex flex-col items-center text-center h-full" onclick="openModal('anniversary')">
+            <div class="w-12 h-12 md:w-16 md:h-16 rounded-full bg-brand-primary flex items-center justify-center mb-3 md:mb-4 shadow-[0_0_20px_rgba(0,68,217,0.7)] border border-brand-cyan/60">
+                <svg class="w-6 h-6 md:w-8 md:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
+            </div>
+            <h2 class="text-lg md:text-xl font-bold text-white mb-1 md:mb-2">17周年庆主会场</h2>
+            <!-- Indigo Accent -->
+            <p class="text-[10px] md:text-xs text-white mb-3 md:mb-4 bg-brand-indigo px-2 py-1 rounded font-bold border border-brand-cyan">MAIN EVENT</p>
+            <p class="text-gray-200 text-xs md:text-sm flex-grow">十七载光阴，感谢有你。主会场狂欢开启...</p>
+            <button class="mt-3 md:mt-4 text-brand-cyan text-xs md:text-sm font-bold border-b border-brand-cyan pb-0.5 hover:text-white hover:border-white transition-colors">点击查看详情</button>
+        </div>
+    </main>
+
+    <!-- Content Section: Links & Long Image & Notice -->
+    <div class="w-full max-w-4xl space-y-6 md:space-y-8 mb-12">
+        
+        <!-- Two Column Grid -->
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+            
+            <!-- Left: Koi Links List -->
+            <div class="glass-panel rounded-xl p-1 flex flex-col h-[380px] md:h-[500px]">
+                <!-- Header with Brighter Gradient -->
+                <div class="p-4 md:p-5 border-b border-brand-cyan/30 bg-gradient-to-r from-brand-primary/40 to-transparent rounded-t-xl shrink-0">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h2 class="text-lg md:text-xl font-bold text-white flex items-center gap-2">
+                                <span class="w-2 h-5 md:h-6 bg-brand-cyan rounded-sm shadow-[0_0_10px_#73F1FF]"></span>
+                                今日锦鲤专场
+                            </h2>
+                            <p class="text-[10px] md:text-xs text-brand-cyan mt-1 uppercase tracking-wider font-bold">Daily Lucky Draw</p>
+                        </div>
+                        <div class="text-right">
+                            <span class="text-[10px] md:text-xs bg-brand-primary/30 text-brand-cyan px-2 py-1 rounded border border-brand-cyan/50 animate-pulse shadow-[0_0_15px_rgba(115,241,255,0.2)]">截止: 12.29 19:00</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="p-3 md:p-4 overflow-y-auto custom-scroll flex-grow space-y-2 md:space-y-3 bg-brand-primary/10">
+                    <!-- Links -->
+                    <a href="https://m.q.qq.com/a/p/1110889692?s=pages%2Finfo%2Finfo%3Fid%3D17661145720734" target="_blank" class="game-link-btn block p-2 md:p-3 rounded-lg group relative overflow-hidden">
+                        <div class="flex items-center justify-between relative z-10">
+                            <div class="flex items-center gap-2 md:gap-3">
+                                <img src="https://cdn.discordapp.com/attachments/1452947232696434739/1453278400830771342/288X288.png?ex=694cde7b&is=694b8cfb&hm=3ca77cc680adec94c96df39a15ff1a0f7b4eb0b92b327bd5a797d5a1411fe4fb&" alt="英雄杀" class="w-7 h-7 md:w-8 md:h-8 rounded-md object-cover border border-brand-cyan/40 group-hover:border-brand-cyan transition-colors">
+                                <span class="font-bold text-sm md:text-base text-gray-200 group-hover:text-white">英雄杀</span>
+                            </div>
+                            <svg class="w-4 h-4 md:w-5 md:h-5 text-brand-cyan group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                        </div>
+                    </a>
+                    <a href="https://m.q.qq.com/a/p/1110889692?s=pages%2Finfo%2Finfo%3Fid%3D17661128000713" target="_blank" class="game-link-btn block p-2 md:p-3 rounded-lg group relative overflow-hidden">
+                        <div class="flex items-center justify-between relative z-10">
+                            <div class="flex items-center gap-2 md:gap-3">
+                                <img src="https://cdn.discordapp.com/attachments/1452947232696434739/1453278401258455040/1024x1024.png?ex=694cde7b&is=694b8cfb&hm=6d2f8a84e70b9233b6a478fbf643f376337303b28f2f247c1f7e60eb873f0062&" alt="FF14手游" class="w-7 h-7 md:w-8 md:h-8 rounded-md object-cover border border-brand-cyan/40 group-hover:border-brand-cyan transition-colors">
+                                <span class="font-bold text-sm md:text-base text-gray-200 group-hover:text-white">FF14手游</span>
+                            </div>
+                            <svg class="w-4 h-4 md:w-5 md:h-5 text-brand-cyan group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                        </div>
+                    </a>
+                    <a href="https://m.q.qq.com/a/p/1110889692?s=pages%2Finfo%2Finfo%3Fid%3D17661132900717" target="_blank" class="game-link-btn block p-2 md:p-3 rounded-lg group relative overflow-hidden">
+                        <div class="flex items-center justify-between relative z-10">
+                            <div class="flex items-center gap-2 md:gap-3">
+                                <img src="https://cdn.discordapp.com/attachments/1452947232696434739/1453278401610649610/icon2.png?ex=694cde7b&is=694b8cfb&hm=e5fde66a45f764eccaa589be22dac3b685deecd3c54fc1445965fdf4894f5712&" alt="高能英雄" class="w-7 h-7 md:w-8 md:h-8 rounded-md object-cover border border-brand-cyan/40 group-hover:border-brand-cyan transition-colors">
+                                <span class="font-bold text-sm md:text-base text-gray-200 group-hover:text-white">高能英雄</span>
+                            </div>
+                            <svg class="w-4 h-4 md:w-5 md:h-5 text-brand-cyan group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                        </div>
+                    </a>
+                    <a href="https://m.q.qq.com/a/p/1110889692?s=pages%2Finfo%2Finfo%3Fid%3D17661133570719" target="_blank" class="game-link-btn block p-2 md:p-3 rounded-lg group relative overflow-hidden">
+                        <div class="flex items-center justify-between relative z-10">
+                            <div class="flex items-center gap-2 md:gap-3">
+                                <img src="https://cdn.discordapp.com/attachments/1452947232696434739/1453278401933873254/ICON.png?ex=694cde7b&is=694b8cfb&hm=9e17594189a61d4e3acc89499d789ac8d9837b12993586a27beaf6bb42afdb8d&" alt="热血美职篮" class="w-7 h-7 md:w-8 md:h-8 rounded-md object-cover border border-brand-cyan/40 group-hover:border-brand-cyan transition-colors">
+                                <span class="font-bold text-sm md:text-base text-gray-200 group-hover:text-white">热血美职篮</span>
+                            </div>
+                            <svg class="w-4 h-4 md:w-5 md:h-5 text-brand-cyan group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                        </div>
+                    </a>
+                    <a href="https://m.q.qq.com/a/p/1110889692?s=pages%2Finfo%2Finfo%3Fid%3D17661133570719" target="_blank" class="game-link-btn block p-2 md:p-3 rounded-lg group relative overflow-hidden">
+                        <div class="flex items-center justify-between relative z-10">
+                            <div class="flex items-center gap-2 md:gap-3">
+                                <img src="https://cdn.discordapp.com/attachments/1452947232696434739/1453280614806585395/icon180x180.png?ex=694ce08b&is=694b8f0b&hm=119753c830e3cd09927d38de6e71c0d2e936f1bc7c72e9f34e68ac31f36f5b25&" alt="金铲铲之战" class="w-7 h-7 md:w-8 md:h-8 rounded-md object-cover border border-brand-cyan/40 group-hover:border-brand-cyan transition-colors">
+                                <span class="font-bold text-sm md:text-base text-gray-200 group-hover:text-white">金铲铲之战</span>
+                            </div>
+                            <svg class="w-4 h-4 md:w-5 md:h-5 text-brand-cyan group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                        </div>
+                    </a>
+                    <a href="https://m.q.qq.com/a/p/1110889692?s=pages%2Finfo%2Finfo%3Fid%3D17661133570719" target="_blank" class="game-link-btn block p-2 md:p-3 rounded-lg group relative overflow-hidden">
+                        <div class="flex items-center justify-between relative z-10">
+                            <div class="flex items-center gap-2 md:gap-3">
+                                <img src="https://cdn.discordapp.com/attachments/1452947232696434739/1453278403276046389/icon180.png?ex=694cde7b&is=694b8cfb&hm=a9f84e9decf19e77464c19a7fee7e0c3214a79897569d2ec2d43dcca2c78629f&" alt="自由幻想手游" class="w-7 h-7 md:w-8 md:h-8 rounded-md object-cover border border-brand-cyan/40 group-hover:border-brand-cyan transition-colors">
+                                <span class="font-bold text-sm md:text-base text-gray-200 group-hover:text-white">自由幻想手游</span>
+                            </div>
+                            <svg class="w-4 h-4 md:w-5 md:h-5 text-brand-cyan group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                        </div>
+                    </a>
+                    <a href="https://m.q.qq.com/a/p/1110889692?s=pages%2Finfo%2Finfo%3Fid%3D17661144700731" target="_blank" class="game-link-btn block p-2 md:p-3 rounded-lg group relative overflow-hidden">
+                        <div class="flex items-center justify-between relative z-10">
+                            <div class="flex items-center gap-2 md:gap-3">
+                                <img src="https://cdn.discordapp.com/attachments/1452947232696434739/1453279910817697914/512.png?ex=694cdfe3&is=694b8e63&hm=862e36aa20a79e0103013a0824c8d0f31c130966e46464ff82118c565f650e9f&" alt="欢乐麻将" class="w-7 h-7 md:w-8 md:h-8 rounded-md object-cover border border-brand-cyan/40 group-hover:border-brand-cyan transition-colors">
+                                <span class="font-bold text-sm md:text-base text-gray-200 group-hover:text-white">欢乐麻将</span>
+                            </div>
+                            <svg class="w-4 h-4 md:w-5 md:h-5 text-brand-cyan group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Right: Long Image Display (Scrollable) -->
+            <div class="glass-panel rounded-xl p-1 flex flex-col h-[380px] md:h-[500px]">
+                <div class="p-4 md:p-5 border-b border-brand-cyan/30 bg-gradient-to-r from-purple-900/40 to-transparent rounded-t-xl shrink-0">
+                    <h2 class="text-lg md:text-xl font-bold text-white flex items-center gap-2">
+                        <span class="w-2 h-5 md:h-6 bg-purple-400 rounded-sm"></span>
+                        活动详情概览
+                    </h2>
+                    <p class="text-[10px] md:text-xs text-purple-300 mt-1 uppercase tracking-wider">Event Overview</p>
+                </div>
+                
+                <!-- Scrollable Container -->
+                <div class="relative w-full flex-grow overflow-hidden bg-brand-primary/10 rounded-b-xl">
+                    <div class="absolute inset-0 overflow-y-auto custom-scroll">
+                        <img src="https://cdn.discordapp.com/attachments/1452947232696434739/1452953372616294481/ac3072686866d200.jpg?ex=694bafc6&is=694a5e46&hm=c0143bec064e5a4fe1517153c7200b0b337460ea2ff68ac7f2add5469b2ec3c6&" 
+                             alt="Activity Long Chart" 
+                             class="w-full h-auto block">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- New Section: Supplement Notice -->
+        <section class="glass-panel rounded-xl p-4 md:p-6 border-l-4 border-brand-cyan relative z-10 bg-brand-primary/20">
+            <h2 class="text-lg md:text-xl font-bold text-white mb-3 md:mb-4 flex items-center gap-2">
+                <svg class="w-5 h-5 md:w-6 md:h-6 text-brand-cyan" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                补抽活动说明
+            </h2>
+            
+            <div class="space-y-3 md:space-y-4">
+                <div class="flex flex-col md:flex-row md:items-center gap-2 md:gap-4 text-xs md:text-base">
+                    <span class="text-brand-cyan font-bold whitespace-nowrap">⏳ 活动时间：</span>
+                    <span class="text-gray-200 bg-brand-primary/20 px-2 md:px-3 py-1 rounded border border-brand-cyan/40">12月20日 11:00 - 12月29日 19:00</span>
+                </div>
+
+                <div>
+                    <div class="text-brand-cyan font-bold mb-2 md:mb-3 flex items-center gap-2 text-sm md:text-base">
+                        🎁 补抽奖项池 
+                        <span class="text-[10px] md:text-xs font-normal text-gray-300 border border-gray-500 px-1.5 rounded">(社群+官号轮空)</span>
+                    </div>
+                    
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-3">
+                        <div class="bg-brand-primary/10 p-2 rounded border border-brand-cyan/30 flex items-center justify-between group hover:border-brand-cyan/60 transition-colors">
+                            <span class="text-gray-200 text-xs md:text-sm">最终幻想14</span>
+                            <span class="text-brand-cyan font-bold text-xs md:text-sm">x2</span>
+                        </div>
+                        <div class="bg-brand-primary/10 p-2 rounded border border-brand-cyan/30 flex items-center justify-between group hover:border-brand-cyan/60 transition-colors">
+                            <span class="text-gray-200 text-xs md:text-sm">高能英雄</span>
+                            <span class="text-brand-cyan font-bold text-xs md:text-sm">x2</span>
+                        </div>
+                        <div class="bg-brand-primary/10 p-2 rounded border border-brand-cyan/30 flex items-center justify-between group hover:border-brand-cyan/60 transition-colors">
+                            <span class="text-gray-200 text-xs md:text-sm">热血美职篮</span>
+                            <span class="text-brand-cyan font-bold text-xs md:text-sm">x2</span>
+                        </div>
+                        <div class="bg-brand-primary/10 p-2 rounded border border-brand-cyan/30 flex items-center justify-between group hover:border-brand-cyan/60 transition-colors">
+                            <span class="text-gray-200 text-xs md:text-sm">金铲铲之战</span>
+                            <span class="text-brand-cyan font-bold text-xs md:text-sm">x1</span>
+                        </div>
+                        <div class="bg-brand-primary/10 p-2 rounded border border-brand-cyan/30 flex items-center justify-between group hover:border-brand-cyan/60 transition-colors">
+                            <span class="text-gray-200 text-xs md:text-sm">英雄杀</span>
+                            <span class="text-brand-cyan font-bold text-xs md:text-sm">x1</span>
+                        </div>
+                        <div class="bg-brand-primary/10 p-2 rounded border border-brand-cyan/30 flex items-center justify-between group hover:border-brand-cyan/60 transition-colors">
+                            <span class="text-gray-200 text-xs md:text-sm">自由幻想手游</span>
+                            <span class="text-brand-cyan font-bold text-xs md:text-sm">x1</span>
+                        </div>
+                        <div class="bg-brand-primary/10 p-2 rounded border border-brand-cyan/30 flex items-center justify-between group hover:border-brand-cyan/60 transition-colors">
+                            <span class="text-gray-200 text-xs md:text-sm">欢乐麻将</span>
+                            <span class="text-brand-cyan font-bold text-xs md:text-sm">x3</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <footer class="text-brand-cyan/60 text-xs text-center pb-8">
+        <p>© 2023 LIGHTSPEED STUDIOS. All Rights Reserved.</p>
+        <p class="mt-1">Designed with Photon Aesthetics</p>
+    </footer>
+
+    <!-- Modal Template -->
+    <div id="infoModal" class="modal-overlay fixed inset-0 z-50 flex items-center justify-center p-4">
+        <div class="modal-content glass-panel w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-2xl relative">
+            <!-- Close Button -->
+            <button onclick="closeModal()" class="absolute top-4 right-4 text-brand-cyan hover:text-white transition-colors z-10 p-2 bg-brand-primary/20 rounded-full border border-brand-cyan/30">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+
+            <!-- Modal Body -->
+            <div class="p-6 md:p-8">
+                <div class="flex items-center space-x-3 mb-4 md:mb-6 border-b border-brand-primary/50 pb-4">
+                    <div id="modalIcon" class="w-10 h-10 rounded-full bg-brand-primary flex items-center justify-center text-white border border-brand-cyan">
+                        <!-- Icon injected by JS -->
+                    </div>
+                    <h2 id="modalTitle" class="text-xl md:text-2xl font-bold text-white tech-font shadow-brand-primary">标题</h2>
+                </div>
+                
+                <div id="modalBody" class="text-gray-300 space-y-4 leading-relaxed text-sm md:text-base">
+                    <!-- Content injected by JS -->
+                </div>
+
+                <div class="mt-6 md:mt-8 pt-4 border-t border-brand-primary/50 text-center">
+                    <button onclick="closeModal()" class="px-6 py-2 bg-brand-primary hover:bg-brand-cyan text-white hover:text-brand-deep rounded-lg transition-colors font-medium text-sm font-bold shadow-[0_0_15px_rgba(0,68,217,0.5)]">关闭窗口</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const cardData = {
+            king: {
+                title: "光子捧场王",
+                color: "from-brand-primary to-brand-cyan",
+                icon: `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"></path></svg>`,
+                content: `
+                    <div class="space-y-4">
+                        <p class="text-lg font-bold text-white">【光子捧场王 | 嗨嗨嗨，聊起来！霸榜龙王品赢神秘好礼】</p>
+                        <p>不止操作秀，聊天也要C！欢迎在群内畅聊你的游戏人生，用你的妙语连珠征服所有人吧！首期活动仅在光子头号玩家群1-5群开放，感谢大家的热情和参与~</p>
+                        
+                        <div class="bg-brand-primary/20 p-4 rounded-lg border-l-4 border-brand-gold">
+                            <p><span class="text-brand-gold font-bold">本期活动时间：</span>12月9日-12月23日</p>
+                            <p><span class="text-brand-gold font-bold">开奖时间：</span>12月23日 15:00</p>
+                        </div>
+
+                        <h4 class="text-brand-cyan font-bold mt-4">📋 活动规则</h4>
+                        <p>每日在群内发言数达到第一即可成为当日龙王，累计成为龙王的次数，最终成为【龙王争霸榜】第一名的小伙伴将获得【神秘周边】*1！</p>
+
+                        <h4 class="text-brand-cyan font-bold mt-4">📢 公示规则</h4>
+                        <p>开奖后，各个群的获奖名单将在对应群内公示3天，在此期间我们会复审获奖者的获奖资格。其他小伙伴若对获奖名单存在异议，欢迎联系【活动小助手】提供相关证据进行反馈。逾期将不再受理相关问题。最终名单将于公示结束后的3个工作日内公布。</p>
+
+                        <h4 class="text-brand-cyan font-bold mt-4">⚠️ 特别说明</h4>
+                        <ul class="list-disc pl-5 space-y-2 text-gray-400">
+                            <li>最终获奖者以12月23日15点时系统显示的排名情况为准。如因特殊原因（例如上榜人数少于3人）导致无榜单等情况，则当期奖项轮空。</li>
+                            <li>我们鼓励有内容的交流，但如发现有成员通过“恶意刷屏”、“发布无意义内容”等方式（如：纯表情刷屏、无意义字符等）刻意刷榜，管理员核实后有权取消其资格，当期奖项轮空。</li>
+                            <li>讨论请围绕游戏及活动，欢迎攻略分享、友好答疑等精彩观点~</li>
+                        </ul>
+                    </div>
+                `
+            },
+            koi: {
+                title: "光子Q群锦鲤",
+                color: "from-brand-cyan to-brand-primary",
+                icon: `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path></svg>`,
+                content: `
+                    <div class="space-y-4">
+                        <p class="text-lg font-bold text-white">【光子Q群锦鲤 | 谁是下一个天选之子？】</p>
+                        <p>光子宇宙能量汇聚，寻找那个万中无一的幸运儿！无需复杂操作，只要你在这里，就有机会被好运砸中！</p>
+                        
+                        <div class="bg-brand-primary/20 p-4 rounded-lg border-l-4 border-brand-cyan">
+                            <p><span class="text-brand-cyan font-bold">参与方式：</span>关注群公告，参与限时接龙或抽奖小程序</p>
+                            <p><span class="text-brand-cyan font-bold">开奖周期：</span>每周五晚 20:00 准时开奖</p>
+                        </div>
+
+                        <h4 class="text-brand-cyan font-bold mt-4">🎁 锦鲤大礼包</h4>
+                        <ul class="list-disc pl-5 space-y-2 text-gray-400">
+                            <li>光子定制机械键盘 * 1</li>
+                            <li>绝版游戏皮肤兑换码 * 1</li>
+                            <li>群内专属“锦鲤”头衔（有效期7天）</li>
+                        </ul>
+
+                        <h4 class="text-brand-cyan font-bold mt-4">⚠️ 注意事项</h4>
+                        <p>中奖者需在24小时内联系管理员登记信息，超时视为自动放弃。每人每期仅限参与一次，严禁使用小号刷奖。</p>
+                    </div>
+                `
+            },
+            anniversary: {
+                title: "17周年庆主会场",
+                color: "from-brand-primary to-brand-indigo",
+                icon: `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>`,
+                content: `
+                    <div class="space-y-4">
+                        <p class="text-lg font-bold text-white">【光子17周年庆 | 逐光而行，感恩有你】</p>
+                        <p>十七年的热爱与坚持，铸就了无数经典瞬间。在这个特别的日子里，我们准备了史上最豪华的福利盛宴，邀请每一位特种兵回家！</p>
+                        
+                        <div class="bg-brand-primary/20 p-4 rounded-lg border-l-4 border-brand-indigo">
+                            <p><span class="text-brand-cyan font-bold">庆典时间：</span>12月1日 - 12月31日</p>
+                            <p><span class="text-brand-cyan font-bold">高潮日：</span>12月17日 全服狂欢</p>
+                        </div>
+
+                        <h4 class="text-white font-bold mt-4">🎉 精彩活动一览</h4>
+                        <div class="grid grid-cols-1 gap-2 text-gray-300">
+                            <div class="bg-brand-deep/80 p-2 rounded border border-brand-primary/30">🔹 <span class="text-brand-cyan font-bold">登录好礼：</span>庆典期间登录即送周年限定头像框</div>
+                            <div class="bg-brand-deep/80 p-2 rounded border border-brand-primary/30">🔹 <span class="text-brand-cyan font-bold">回忆杀：</span>生成你的年度游戏报告，分享得好礼</div>
+                            <div class="bg-brand-deep/80 p-2 rounded border border-brand-primary/30">🔹 <span class="text-brand-cyan font-bold">策划面对面：</span>17日晚直播间，策划在线答疑发红包</div>
+                        </div>
+
+                        <h4 class="text-white font-bold mt-4">🚀 前往参与</h4>
+                        <p>点击下方链接即可跳转至游戏内或官网主会场页面，精彩不容错过！</p>
+                    </div>
+                `
+            }
+        };
+
+        function openModal(type) {
+            const data = cardData[type];
+            if (!data) return;
+
+            const modal = document.getElementById('infoModal');
+            const title = document.getElementById('modalTitle');
+            const body = document.getElementById('modalBody');
+            const iconContainer = document.getElementById('modalIcon');
+
+            // Set Content
+            title.textContent = data.title;
+            body.innerHTML = data.content;
+            iconContainer.innerHTML = data.icon;
+            
+            // Set Icon Background Gradient
+            iconContainer.className = `w-10 h-10 rounded-full flex items-center justify-center text-white bg-gradient-to-br ${data.color}`;
+
+            modal.classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('infoModal').classList.remove('active');
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('infoModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+    </script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015" integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ==" data-cf-beacon='{"version":"2024.11.0","token":"0d2a830da81649f99a15c13251273855","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+</body>
+</html>
