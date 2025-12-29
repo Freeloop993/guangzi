@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>光子玩家社区 | 导航站 </title>
+    <title>光子玩家社区 | 导航站</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -11,12 +11,11 @@
                 extend: {
                     colors: {
                         brand: {
-                            primary: '#0044D9', // The core blue
-                            lighter: '#1a5cff', // Visual adjustment for "too dark" perception
-                            cyan: '#73F1FF',
-                            deep: '#000C32',
-                            indigo: '#19109F',
-                            gold: '#FFD49D',
+                            primary: '#0044D9', // 50%
+                            cyan: '#73F1FF',    // 25%
+                            deep: '#000C32',    // 17%
+                            indigo: '#19109F',  // 8%
+                            gold: '#FFD49D',    // Accent
                         }
                     }
                 }
@@ -32,21 +31,19 @@
             --brand-indigo: #19109F;
             --brand-gold: #FFD49D;
             
-            /* Lighter Glass variables */
-            --glass-bg: rgba(0, 68, 217, 0.15); 
+            --glass-bg: rgba(0, 12, 50, 0.6); 
             --glass-border: rgba(115, 241, 255, 0.3);
         }
 
         body {
-            background-color: #020f2e; /* Slightly lighter than pure deep brand color */
+            background-color: var(--brand-deep);
             color: #ffffff;
             font-family: 'Noto Sans SC', sans-serif;
             overflow-x: hidden;
-            /* Significantly lightened background gradients to make the Blue pop */
+            /* Body Gradient */
             background-image: 
-                radial-gradient(circle at 50% 0%, rgba(0, 68, 217, 0.4) 0%, rgba(2, 15, 46, 1) 100%),
-                radial-gradient(circle at 80% 20%, rgba(115, 241, 255, 0.08) 0%, transparent 50%),
-                radial-gradient(circle at 20% 80%, rgba(0, 68, 217, 0.15) 0%, transparent 50%);
+                radial-gradient(circle at 50% 10%, rgba(0, 68, 217, 0.4) 0%, rgba(0, 12, 50, 1) 70%),
+                radial-gradient(circle at 20% 90%, rgba(25, 16, 159, 0.3) 0%, transparent 50%);
             min-height: 100vh;
         }
 
@@ -56,60 +53,59 @@
         }
 
         .glass-panel {
-            background: rgba(0, 40, 130, 0.3); /* Lighter blue base */
+            background: var(--glass-bg);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             border: 1px solid var(--glass-border);
-            box-shadow: 0 4px 30px rgba(0, 68, 217, 0.15);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
         }
 
-        /* Hero Section - Cleaner & Lighter */
+        /* Hero Section */
         .hero-poster {
             position: relative;
-            background-image: url('https://cdn.discordapp.com/attachments/1452947232696434739/1453308324132032554/p9wi0tdA.png?ex=694cfa59&is=694ba8d9&hm=f3f8fc883df0cbe402402412a5ba2346ef9b7a66c94773b44adf4b11599141df&');
+            /* Updated Background Image with ?raw=true for GitHub links */
+            background-image: url('https://github.com/Freeloop993/guangzi/blob/main/image/p9wi0tdA.png?raw=true');
             background-repeat: no-repeat;
             background-position: center top;
             background-size: cover;
             border: none; 
             overflow: hidden;
-            box-shadow: 0 15px 40px -10px rgba(0, 40, 130, 0.6); /* Blue-tinted shadow */
+            box-shadow: 0 20px 60px -20px rgba(0, 0, 0, 0.8);
         }
 
-        /* Overlay - Reduced darkness significantly */
+        /* Hero Overlay */
         .hero-poster::before {
             content: '';
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
-            /* Much lighter gradient. Only dark at the very bottom for text readability. */
             background: linear-gradient(to bottom, 
-                rgba(0, 40, 130, 0.2) 0%, 
-                rgba(0, 20, 60, 0.4) 60%, 
-                rgba(2, 15, 46, 0.9) 100%
+                rgba(0, 12, 50, 0.4) 0%, 
+                rgba(0, 12, 50, 0.6) 50%, 
+                rgba(0, 12, 50, 0.9) 100%
             );
-            backdrop-filter: saturate(110%) brightness(1.1); /* Slightly boosting brightness instead of darkening */
+            backdrop-filter: saturate(90%);
             z-index: 0;
         }
         
         .hero-glow-text {
-            text-shadow: 0 0 25px var(--brand-primary), 0 0 10px rgba(255,255,255,0.5);
+            text-shadow: 0 0 20px var(--brand-primary), 0 0 40px var(--brand-cyan);
         }
 
-        /* Cards - Lighter and Bluer */
+        /* Card Style */
         .event-card {
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             overflow: hidden;
             cursor: pointer;
-            border: 1px solid rgba(115, 241, 255, 0.25);
-            /* Using a lighter blue gradient base */
-            background: linear-gradient(170deg, rgba(0, 50, 160, 0.2) 0%, rgba(0, 20, 60, 0.6) 100%);
+            border: 1px solid rgba(115, 241, 255, 0.2);
+            background: linear-gradient(160deg, rgba(0, 12, 50, 0.7) 0%, rgba(0, 68, 217, 0.15) 100%);
         }
         
         .event-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 0 35px rgba(0, 68, 217, 0.4);
+            box-shadow: 0 0 30px rgba(0, 68, 217, 0.3);
             border-color: var(--brand-cyan);
-            background: linear-gradient(170deg, rgba(0, 68, 217, 0.3) 0%, rgba(0, 30, 80, 0.8) 100%);
+            background: linear-gradient(160deg, rgba(0, 12, 50, 0.85) 0%, rgba(0, 68, 217, 0.3) 100%);
         }
 
         /* Custom Scrollbar */
@@ -117,7 +113,7 @@
             width: 6px;
         }
         .custom-scroll::-webkit-scrollbar-track {
-            background: rgba(0, 40, 130, 0.2);
+            background: rgba(0, 12, 50, 0.3);
             border-radius: 4px;
         }
         .custom-scroll::-webkit-scrollbar-thumb {
@@ -130,7 +126,7 @@
 
         /* Modal Styles */
         .modal-overlay {
-            background: rgba(2, 15, 46, 0.85);
+            background: rgba(0, 12, 50, 0.9);
             backdrop-filter: blur(8px);
             opacity: 0;
             pointer-events: none;
@@ -145,39 +141,39 @@
         .modal-content {
             transform: scale(0.95) translateY(20px);
             transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-            background-color: #0a1533; 
+            background-color: #050a1a; 
             border: 1px solid var(--brand-cyan);
-            box-shadow: 0 0 40px rgba(0, 68, 217, 0.4);
+            box-shadow: 0 0 40px rgba(0, 68, 217, 0.5);
         }
         
         .modal-overlay.active .modal-content {
             transform: scale(1) translateY(0);
         }
 
-        /* Button Glow - Lighter Blue */
+        /* Button Glow */
         .btn-glow {
             position: relative;
             z-index: 1;
             overflow: hidden;
             transition: all 0.3s;
-            background: rgba(0, 68, 217, 0.9); /* Slightly more opaque/bright */
+            background: rgba(0, 68, 217, 0.8);
             border: 1px solid var(--brand-cyan);
             color: white;
-            box-shadow: 0 0 20px rgba(0, 68, 217, 0.5);
+            box-shadow: 0 0 15px rgba(0, 68, 217, 0.4);
         }
         
         .btn-glow::before {
             content: '';
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
-            background: linear-gradient(90deg, var(--brand-cyan), #4d8aff); /* Lighter blue gradient */
+            background: linear-gradient(90deg, var(--brand-cyan), var(--brand-primary));
             z-index: -1;
             transition: opacity 0.3s;
             opacity: 0;
         }
         
         .btn-glow:hover {
-            box-shadow: 0 0 30px rgba(115, 241, 255, 0.7);
+            box-shadow: 0 0 25px rgba(115, 241, 255, 0.6);
             border-color: white;
         }
 
@@ -187,25 +183,25 @@
         
         /* Game Link Button Style */
         .game-link-btn {
-            background: rgba(0, 68, 217, 0.15); /* Lighter base */
-            border: 1px solid rgba(115, 241, 255, 0.25);
+            background: rgba(0, 12, 50, 0.4);
+            border: 1px solid rgba(115, 241, 255, 0.2);
             transition: all 0.2s;
         }
         .game-link-btn:hover {
-            background: rgba(0, 68, 217, 0.5);
+            background: rgba(0, 68, 217, 0.4);
             border-color: var(--brand-cyan);
             padding-left: 1.5rem;
-            box-shadow: 0 0 20px rgba(115, 241, 255, 0.25);
+            box-shadow: 0 0 15px rgba(115, 241, 255, 0.15);
         }
 
         /* Logo Glow */
         .brand-logo {
-            filter: drop-shadow(0 0 8px rgba(115, 241, 255, 0.3));
+            filter: drop-shadow(0 0 5px rgba(115, 241, 255, 0.4));
             transition: transform 0.3s ease;
         }
         .brand-logo:hover {
             transform: scale(1.05);
-            filter: drop-shadow(0 0 20px rgba(115, 241, 255, 0.6));
+            filter: drop-shadow(0 0 15px rgba(115, 241, 255, 0.8));
         }
     </style>
 </head>
@@ -214,58 +210,58 @@
     <!-- Header / Hero Section -->
     <header class="w-full max-w-4xl hero-poster rounded-2xl px-5 pb-6 pt-2 mb-6 md:mb-8 text-center relative z-10">
         
-        <!-- GIF Mascot -->
-        <img src="https://cdn.discordapp.com/attachments/1452947232696434739/1453233445215010937/d5bed1728d0cfd6c.gif?ex=694cb49d&is=694b631d&hm=088cfbb6df8b47169e95f6676b01215331558dd314492e6f96956980a0bf15f3&" 
+        <!-- GIF Mascot (Updated Link) -->
+        <img src="https://github.com/Freeloop993/guangzi/blob/main/image/%E9%80%81%E7%A4%BC%E7%89%A9.gif?raw=true" 
              alt="Mascot" 
              class="absolute bottom-0 right-0 md:right-6 w-16 md:w-32 z-20 pointer-events-none select-none">
 
         <div class="relative z-10 flex flex-col items-center">
-            <!-- Brand Logo -->
+            <!-- Brand Logo (Updated Link) -->
             <div class="w-full max-w-[50px] md:max-w-[120px] -my-1 md:-my-3 relative z-20">
-                <img src="https://cdn.discordapp.com/attachments/1452947232696434739/1453224630398746814/LOGO__--.png?ex=694cac67&is=694b5ae7&hm=ed032f5372ba079aa31f6ec63b5a15933c652a30cf375bcd356ec105a58e11cb&" 
+                <img src="https://github.com/Freeloop993/guangzi/blob/main/image/LOGO__%E4%B8%AD%E6%96%87%E6%A0%87%E5%BF%97-%E7%AB%96%E7%89%88-%E7%99%BD.png?raw=true" 
                      alt="LIGHTSPEED STUDIOS" 
                      class="w-full h-auto brand-logo object-contain transform scale-100">
             </div>
 
-            <h3 class="text-brand-cyan tracking-[0.3em] text-xs md:text-base mb-1 font-bold uppercase relative z-10 drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">Welcome Home</h3>
+            <h3 class="text-brand-cyan tracking-[0.3em] text-xs md:text-base mb-1 font-bold uppercase relative z-10 drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)]">Welcome Home</h3>
             <h1 class="text-2xl md:text-5xl font-black text-white mb-4 md:mb-6 hero-glow-text relative z-10">光子头号玩家群</h1>
             
-            <p class="text-gray-100 max-w-3xl mx-auto mb-5 md:mb-6 text-xs md:text-base leading-relaxed px-2 font-medium drop-shadow-xl relative z-10">
+            <p class="text-gray-100 max-w-3xl mx-auto mb-5 md:mb-6 text-xs md:text-base leading-relaxed px-2 font-medium drop-shadow-lg relative z-10">
                 这里是光子工作室官方玩家群，加入本群，你将享有这些专属特权：
             </p>
 
-            <!-- Privileges Grid - Lightened Backgrounds -->
+            <!-- Privileges Grid -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4 text-left max-w-3xl mx-auto mb-6 md:mb-8 relative z-10">
-                <div class="bg-brand-primary/20 backdrop-blur-md p-3 md:p-4 rounded border border-brand-cyan/40 hover:border-brand-cyan hover:bg-brand-primary/30 transition-all group shadow-sm">
+                <div class="bg-brand-primary/10 backdrop-blur-sm p-3 md:p-4 rounded border border-brand-cyan/30 hover:border-brand-cyan hover:bg-brand-primary/20 transition-all group">
                     <span class="text-brand-cyan font-bold block mb-0.5 md:mb-1 text-sm md:text-base group-hover:text-white transition-colors">【新游先锋官】</span>
-                    <span class="text-gray-100 text-xs md:text-sm">光子新游的内测资格、抢先体验名额，将在这里优先发布和招募!</span>
+                    <span class="text-gray-200 text-xs md:text-sm">光子新游的内测资格、抢先体验名额，将在这里优先发布和招募!</span>
                 </div>
-                <div class="bg-brand-primary/20 backdrop-blur-md p-3 md:p-4 rounded border border-brand-cyan/40 hover:border-brand-cyan hover:bg-brand-primary/30 transition-all group shadow-sm">
+                <div class="bg-brand-primary/10 backdrop-blur-sm p-3 md:p-4 rounded border border-brand-cyan/30 hover:border-brand-cyan hover:bg-brand-primary/20 transition-all group">
                     <span class="text-brand-cyan font-bold block mb-0.5 md:mb-1 text-sm md:text-base group-hover:text-white transition-colors">【同好俱乐部】</span>
-                    <span class="text-gray-100 text-xs md:text-sm">找到和你一样热爱光子游戏的小伙伴，组队开黑、交流攻略、分享趣事。</span>
+                    <span class="text-gray-200 text-xs md:text-sm">找到和你一样热爱光子游戏的小伙伴，组队开黑、交流攻略、分享趣事。</span>
                 </div>
-                <div class="bg-brand-primary/20 backdrop-blur-md p-3 md:p-4 rounded border border-brand-cyan/40 hover:border-brand-cyan hover:bg-brand-primary/30 transition-all group shadow-sm">
+                <div class="bg-brand-primary/10 backdrop-blur-sm p-3 md:p-4 rounded border border-brand-cyan/30 hover:border-brand-cyan hover:bg-brand-primary/20 transition-all group">
                     <span class="text-brand-cyan font-bold block mb-0.5 md:mb-1 text-sm md:text-base group-hover:text-white transition-colors">【活动福利】</span>
-                    <span class="text-gray-100 text-xs md:text-sm">群内不定期掉落各种福利:游戏道具、周边、京东卡</span>
+                    <span class="text-gray-200 text-xs md:text-sm">群内不定期掉落各种福利:游戏道具、周边、京东卡</span>
                 </div>
-                <div class="bg-brand-primary/20 backdrop-blur-md p-3 md:p-4 rounded border border-brand-cyan/40 hover:border-brand-cyan hover:bg-brand-primary/30 transition-all group shadow-sm">
+                <div class="bg-brand-primary/10 backdrop-blur-sm p-3 md:p-4 rounded border border-brand-cyan/30 hover:border-brand-cyan hover:bg-brand-primary/20 transition-all group">
                     <span class="text-brand-cyan font-bold block mb-0.5 md:mb-1 text-sm md:text-base group-hover:text-white transition-colors">【官方直通车】</span>
-                    <span class="text-gray-100 text-xs md:text-sm">光子未来的大型活动、线下聚会等，我们将优先招募社群小伙伴，与光子工作室团队零距离互动!</span>
+                    <span class="text-gray-200 text-xs md:text-sm">光子未来的大型活动、线下聚会等，我们将优先招募社群小伙伴，与光子工作室团队零距离互动!</span>
                 </div>
             </div>
 
             <!-- Divider -->
-            <div class="w-full h-px bg-gradient-to-r from-transparent via-brand-cyan/80 to-transparent my-6 md:my-8 relative z-10 opacity-70"></div>
+            <div class="w-full h-px bg-gradient-to-r from-transparent via-brand-cyan to-transparent my-6 md:my-8 relative z-10 opacity-50"></div>
 
-            <h2 class="text-xl md:text-2xl font-bold text-white mb-2 md:mb-3 relative z-10 text-shadow-md">群聊规范</h2>
-            <p class="text-gray-100 max-w-2xl mx-auto mb-4 md:mb-6 text-xs md:text-sm leading-relaxed px-2 relative z-10 font-medium">
+            <h2 class="text-xl md:text-2xl font-bold text-white mb-2 md:mb-3 relative z-10">群聊规范</h2>
+            <p class="text-gray-200 max-w-2xl mx-auto mb-4 md:mb-6 text-xs md:text-sm leading-relaxed px-2 relative z-10 font-medium">
                 维护良好的社区环境，是每位光子特种兵的责任。<br class="hidden md:inline">
                 请详细阅读下方文档，共同打造和谐、有趣、硬核的游戏交流空间。
             </p>
             
             <div class="relative z-30 inline-block w-auto">
                 <a href="https://docs.qq.com/doc/DUUZzWHNCY1VYY1dE?nlc=1" target="_blank" 
-                   class="btn-glow flex items-center justify-center px-6 md:px-8 py-2 md:py-3 font-bold rounded-lg group text-sm md:text-base w-full md:w-auto shadow-lg">
+                   class="btn-glow flex items-center justify-center px-6 md:px-8 py-2 md:py-3 font-bold rounded-lg group text-sm md:text-base w-full md:w-auto">
                     <span>查看完整规范文档</span>
                     <svg class="w-4 h-4 md:w-5 md:h-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
                 </a>
@@ -278,37 +274,37 @@
         
         <!-- Card 1 -->
         <div class="glass-panel event-card rounded-xl p-5 md:p-6 flex flex-col items-center text-center h-full" onclick="openModal('king')">
-            <div class="w-12 h-12 md:w-16 md:h-16 rounded-full bg-brand-primary flex items-center justify-center mb-3 md:mb-4 shadow-[0_0_20px_rgba(0,68,217,0.7)] border border-brand-cyan/60">
+            <div class="w-12 h-12 md:w-16 md:h-16 rounded-full bg-brand-primary flex items-center justify-center mb-3 md:mb-4 shadow-[0_0_20px_rgba(0,68,217,0.6)] border border-brand-cyan/50">
                 <svg class="w-6 h-6 md:w-8 md:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"></path></svg>
             </div>
             <h2 class="text-lg md:text-xl font-bold text-white mb-1 md:mb-2">光子捧场王</h2>
             <!-- Gold Accent -->
-            <p class="text-[10px] md:text-xs text-brand-deep mb-3 md:mb-4 bg-brand-gold px-2 py-1 rounded font-bold border border-white/60">HOT ACTIVITY</p>
-            <p class="text-gray-200 text-xs md:text-sm flex-grow">嗨嗨嗨，聊起来！霸榜龙王品赢神秘好礼...</p>
+            <p class="text-[10px] md:text-xs text-brand-deep mb-3 md:mb-4 bg-brand-gold px-2 py-1 rounded font-bold border border-white/50">HOT ACTIVITY</p>
+            <p class="text-gray-300 text-xs md:text-sm flex-grow">嗨嗨嗨，聊起来！霸榜龙王品赢神秘好礼...</p>
             <button class="mt-3 md:mt-4 text-brand-cyan text-xs md:text-sm font-bold border-b border-brand-cyan pb-0.5 hover:text-white hover:border-white transition-colors">点击查看详情</button>
         </div>
 
         <!-- Card 2 -->
         <div class="glass-panel event-card rounded-xl p-5 md:p-6 flex flex-col items-center text-center h-full" onclick="openModal('koi')">
-            <div class="w-12 h-12 md:w-16 md:h-16 rounded-full bg-brand-primary flex items-center justify-center mb-3 md:mb-4 shadow-[0_0_20px_rgba(0,68,217,0.7)] border border-brand-cyan/60">
+            <div class="w-12 h-12 md:w-16 md:h-16 rounded-full bg-brand-primary flex items-center justify-center mb-3 md:mb-4 shadow-[0_0_20px_rgba(0,68,217,0.6)] border border-brand-cyan/50">
                 <svg class="w-6 h-6 md:w-8 md:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path></svg>
             </div>
             <h2 class="text-lg md:text-xl font-bold text-white mb-1 md:mb-2">光子Q群锦鲤</h2>
             <!-- Cyan Accent -->
-            <p class="text-[10px] md:text-xs text-brand-deep mb-3 md:mb-4 bg-brand-cyan px-2 py-1 rounded font-bold border border-white/60">LUCKY DRAW</p>
-            <p class="text-gray-200 text-xs md:text-sm flex-grow">寻找天选之子，独宠一人的幸运大奖等你来拿...</p>
+            <p class="text-[10px] md:text-xs text-brand-deep mb-3 md:mb-4 bg-brand-cyan px-2 py-1 rounded font-bold border border-white/50">LUCKY DRAW</p>
+            <p class="text-gray-300 text-xs md:text-sm flex-grow">寻找天选之子，独宠一人的幸运大奖等你来拿...</p>
             <button class="mt-3 md:mt-4 text-brand-cyan text-xs md:text-sm font-bold border-b border-brand-cyan pb-0.5 hover:text-white hover:border-white transition-colors">点击查看详情</button>
         </div>
 
         <!-- Card 3 -->
         <div class="glass-panel event-card rounded-xl p-5 md:p-6 flex flex-col items-center text-center h-full" onclick="openModal('anniversary')">
-            <div class="w-12 h-12 md:w-16 md:h-16 rounded-full bg-brand-primary flex items-center justify-center mb-3 md:mb-4 shadow-[0_0_20px_rgba(0,68,217,0.7)] border border-brand-cyan/60">
+            <div class="w-12 h-12 md:w-16 md:h-16 rounded-full bg-brand-primary flex items-center justify-center mb-3 md:mb-4 shadow-[0_0_20px_rgba(0,68,217,0.6)] border border-brand-cyan/50">
                 <svg class="w-6 h-6 md:w-8 md:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
             </div>
             <h2 class="text-lg md:text-xl font-bold text-white mb-1 md:mb-2">17周年庆主会场</h2>
             <!-- Indigo Accent -->
             <p class="text-[10px] md:text-xs text-white mb-3 md:mb-4 bg-brand-indigo px-2 py-1 rounded font-bold border border-brand-cyan">MAIN EVENT</p>
-            <p class="text-gray-200 text-xs md:text-sm flex-grow">十七载光阴，感谢有你。主会场狂欢开启...</p>
+            <p class="text-gray-300 text-xs md:text-sm flex-grow">十七载光阴，感谢有你。主会场狂欢开启...</p>
             <button class="mt-3 md:mt-4 text-brand-cyan text-xs md:text-sm font-bold border-b border-brand-cyan pb-0.5 hover:text-white hover:border-white transition-colors">点击查看详情</button>
         </div>
     </main>
@@ -321,8 +317,8 @@
             
             <!-- Left: Koi Links List -->
             <div class="glass-panel rounded-xl p-1 flex flex-col h-[380px] md:h-[500px]">
-                <!-- Header with Brighter Gradient -->
-                <div class="p-4 md:p-5 border-b border-brand-cyan/30 bg-gradient-to-r from-brand-primary/40 to-transparent rounded-t-xl shrink-0">
+                <!-- Header with Lighter Primary Blue Gradient -->
+                <div class="p-4 md:p-5 border-b border-brand-cyan/20 bg-gradient-to-r from-brand-primary/30 to-transparent rounded-t-xl shrink-0">
                     <div class="flex justify-between items-start">
                         <div>
                             <h2 class="text-lg md:text-xl font-bold text-white flex items-center gap-2">
@@ -332,72 +328,79 @@
                             <p class="text-[10px] md:text-xs text-brand-cyan mt-1 uppercase tracking-wider font-bold">Daily Lucky Draw</p>
                         </div>
                         <div class="text-right">
-                            <span class="text-[10px] md:text-xs bg-brand-primary/30 text-brand-cyan px-2 py-1 rounded border border-brand-cyan/50 animate-pulse shadow-[0_0_15px_rgba(115,241,255,0.2)]">截止: 12.29 19:00</span>
+                            <span class="text-[10px] md:text-xs bg-brand-primary/20 text-brand-cyan px-2 py-1 rounded border border-brand-cyan/50 animate-pulse shadow-[0_0_10px_rgba(115,241,255,0.3)]">截止: 12.29 19:00</span>
                         </div>
                     </div>
                 </div>
                 
-                <div class="p-3 md:p-4 overflow-y-auto custom-scroll flex-grow space-y-2 md:space-y-3 bg-brand-primary/10">
-                    <!-- Links -->
+                <div class="p-3 md:p-4 overflow-y-auto custom-scroll flex-grow space-y-2 md:space-y-3 bg-brand-primary/5">
+                    <!-- Links (Updated URLs) -->
+                    <!-- 1. 英雄杀 -->
                     <a href="https://m.q.qq.com/a/p/1110889692?s=pages%2Finfo%2Finfo%3Fid%3D17661145720734" target="_blank" class="game-link-btn block p-2 md:p-3 rounded-lg group relative overflow-hidden">
                         <div class="flex items-center justify-between relative z-10">
                             <div class="flex items-center gap-2 md:gap-3">
-                                <img src="https://cdn.discordapp.com/attachments/1452947232696434739/1453278400830771342/288X288.png?ex=694cde7b&is=694b8cfb&hm=3ca77cc680adec94c96df39a15ff1a0f7b4eb0b92b327bd5a797d5a1411fe4fb&" alt="英雄杀" class="w-7 h-7 md:w-8 md:h-8 rounded-md object-cover border border-brand-cyan/40 group-hover:border-brand-cyan transition-colors">
-                                <span class="font-bold text-sm md:text-base text-gray-200 group-hover:text-white">英雄杀</span>
+                                <img src="https://github.com/Freeloop993/guangzi/blob/main/image/288X288.png?raw=true" alt="英雄杀" class="w-7 h-7 md:w-8 md:h-8 rounded-md object-cover border border-brand-cyan/30 group-hover:border-brand-cyan transition-colors">
+                                <span class="font-bold text-sm md:text-base text-gray-300 group-hover:text-white">英雄杀</span>
                             </div>
                             <svg class="w-4 h-4 md:w-5 md:h-5 text-brand-cyan group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                         </div>
                     </a>
+                    <!-- 2. FF14手游 -->
                     <a href="https://m.q.qq.com/a/p/1110889692?s=pages%2Finfo%2Finfo%3Fid%3D17661128000713" target="_blank" class="game-link-btn block p-2 md:p-3 rounded-lg group relative overflow-hidden">
                         <div class="flex items-center justify-between relative z-10">
                             <div class="flex items-center gap-2 md:gap-3">
-                                <img src="https://cdn.discordapp.com/attachments/1452947232696434739/1453278401258455040/1024x1024.png?ex=694cde7b&is=694b8cfb&hm=6d2f8a84e70b9233b6a478fbf643f376337303b28f2f247c1f7e60eb873f0062&" alt="FF14手游" class="w-7 h-7 md:w-8 md:h-8 rounded-md object-cover border border-brand-cyan/40 group-hover:border-brand-cyan transition-colors">
-                                <span class="font-bold text-sm md:text-base text-gray-200 group-hover:text-white">FF14手游</span>
+                                <img src="https://github.com/Freeloop993/guangzi/blob/main/image/1024x1024.png?raw=true" alt="FF14手游" class="w-7 h-7 md:w-8 md:h-8 rounded-md object-cover border border-brand-cyan/30 group-hover:border-brand-cyan transition-colors">
+                                <span class="font-bold text-sm md:text-base text-gray-300 group-hover:text-white">FF14手游</span>
                             </div>
                             <svg class="w-4 h-4 md:w-5 md:h-5 text-brand-cyan group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                         </div>
                     </a>
+                    <!-- 3. 高能英雄 -->
                     <a href="https://m.q.qq.com/a/p/1110889692?s=pages%2Finfo%2Finfo%3Fid%3D17661132900717" target="_blank" class="game-link-btn block p-2 md:p-3 rounded-lg group relative overflow-hidden">
                         <div class="flex items-center justify-between relative z-10">
                             <div class="flex items-center gap-2 md:gap-3">
-                                <img src="https://cdn.discordapp.com/attachments/1452947232696434739/1453278401610649610/icon2.png?ex=694cde7b&is=694b8cfb&hm=e5fde66a45f764eccaa589be22dac3b685deecd3c54fc1445965fdf4894f5712&" alt="高能英雄" class="w-7 h-7 md:w-8 md:h-8 rounded-md object-cover border border-brand-cyan/40 group-hover:border-brand-cyan transition-colors">
-                                <span class="font-bold text-sm md:text-base text-gray-200 group-hover:text-white">高能英雄</span>
+                                <img src="https://github.com/Freeloop993/guangzi/blob/main/image/%E6%B8%B8%E6%88%8Ficon2.png?raw=true" alt="高能英雄" class="w-7 h-7 md:w-8 md:h-8 rounded-md object-cover border border-brand-cyan/30 group-hover:border-brand-cyan transition-colors">
+                                <span class="font-bold text-sm md:text-base text-gray-300 group-hover:text-white">高能英雄</span>
                             </div>
                             <svg class="w-4 h-4 md:w-5 md:h-5 text-brand-cyan group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                         </div>
                     </a>
+                    <!-- 4. 热血美职篮 -->
                     <a href="https://m.q.qq.com/a/p/1110889692?s=pages%2Finfo%2Finfo%3Fid%3D17661133570719" target="_blank" class="game-link-btn block p-2 md:p-3 rounded-lg group relative overflow-hidden">
                         <div class="flex items-center justify-between relative z-10">
                             <div class="flex items-center gap-2 md:gap-3">
-                                <img src="https://cdn.discordapp.com/attachments/1452947232696434739/1453278401933873254/ICON.png?ex=694cde7b&is=694b8cfb&hm=9e17594189a61d4e3acc89499d789ac8d9837b12993586a27beaf6bb42afdb8d&" alt="热血美职篮" class="w-7 h-7 md:w-8 md:h-8 rounded-md object-cover border border-brand-cyan/40 group-hover:border-brand-cyan transition-colors">
-                                <span class="font-bold text-sm md:text-base text-gray-200 group-hover:text-white">热血美职篮</span>
+                                <img src="https://github.com/Freeloop993/guangzi/blob/main/image/%E6%B8%B8%E6%88%8FICON.png?raw=true" alt="热血美职篮" class="w-7 h-7 md:w-8 md:h-8 rounded-md object-cover border border-brand-cyan/30 group-hover:border-brand-cyan transition-colors">
+                                <span class="font-bold text-sm md:text-base text-gray-300 group-hover:text-white">热血美职篮</span>
                             </div>
                             <svg class="w-4 h-4 md:w-5 md:h-5 text-brand-cyan group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                         </div>
                     </a>
+                    <!-- 5. 金铲铲之战 -->
                     <a href="https://m.q.qq.com/a/p/1110889692?s=pages%2Finfo%2Finfo%3Fid%3D17661133570719" target="_blank" class="game-link-btn block p-2 md:p-3 rounded-lg group relative overflow-hidden">
                         <div class="flex items-center justify-between relative z-10">
                             <div class="flex items-center gap-2 md:gap-3">
-                                <img src="https://cdn.discordapp.com/attachments/1452947232696434739/1453280614806585395/icon180x180.png?ex=694ce08b&is=694b8f0b&hm=119753c830e3cd09927d38de6e71c0d2e936f1bc7c72e9f34e68ac31f36f5b25&" alt="金铲铲之战" class="w-7 h-7 md:w-8 md:h-8 rounded-md object-cover border border-brand-cyan/40 group-hover:border-brand-cyan transition-colors">
-                                <span class="font-bold text-sm md:text-base text-gray-200 group-hover:text-white">金铲铲之战</span>
+                                <img src="https://github.com/Freeloop993/guangzi/blob/main/image/icon180x180.png?raw=true" alt="金铲铲之战" class="w-7 h-7 md:w-8 md:h-8 rounded-md object-cover border border-brand-cyan/30 group-hover:border-brand-cyan transition-colors">
+                                <span class="font-bold text-sm md:text-base text-gray-300 group-hover:text-white">金铲铲之战</span>
                             </div>
                             <svg class="w-4 h-4 md:w-5 md:h-5 text-brand-cyan group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                         </div>
                     </a>
+                    <!-- 6. 自由幻想手游 -->
                     <a href="https://m.q.qq.com/a/p/1110889692?s=pages%2Finfo%2Finfo%3Fid%3D17661133570719" target="_blank" class="game-link-btn block p-2 md:p-3 rounded-lg group relative overflow-hidden">
                         <div class="flex items-center justify-between relative z-10">
                             <div class="flex items-center gap-2 md:gap-3">
-                                <img src="https://cdn.discordapp.com/attachments/1452947232696434739/1453278403276046389/icon180.png?ex=694cde7b&is=694b8cfb&hm=a9f84e9decf19e77464c19a7fee7e0c3214a79897569d2ec2d43dcca2c78629f&" alt="自由幻想手游" class="w-7 h-7 md:w-8 md:h-8 rounded-md object-cover border border-brand-cyan/40 group-hover:border-brand-cyan transition-colors">
-                                <span class="font-bold text-sm md:text-base text-gray-200 group-hover:text-white">自由幻想手游</span>
+                                <img src="https://github.com/Freeloop993/guangzi/blob/main/image/%E6%9C%80%E6%96%B0icon180.png?raw=true" alt="自由幻想手游" class="w-7 h-7 md:w-8 md:h-8 rounded-md object-cover border border-brand-cyan/30 group-hover:border-brand-cyan transition-colors">
+                                <span class="font-bold text-sm md:text-base text-gray-300 group-hover:text-white">自由幻想手游</span>
                             </div>
                             <svg class="w-4 h-4 md:w-5 md:h-5 text-brand-cyan group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                         </div>
                     </a>
+                    <!-- 7. 欢乐麻将 -->
                     <a href="https://m.q.qq.com/a/p/1110889692?s=pages%2Finfo%2Finfo%3Fid%3D17661144700731" target="_blank" class="game-link-btn block p-2 md:p-3 rounded-lg group relative overflow-hidden">
                         <div class="flex items-center justify-between relative z-10">
                             <div class="flex items-center gap-2 md:gap-3">
-                                <img src="https://cdn.discordapp.com/attachments/1452947232696434739/1453279910817697914/512.png?ex=694cdfe3&is=694b8e63&hm=862e36aa20a79e0103013a0824c8d0f31c130966e46464ff82118c565f650e9f&" alt="欢乐麻将" class="w-7 h-7 md:w-8 md:h-8 rounded-md object-cover border border-brand-cyan/40 group-hover:border-brand-cyan transition-colors">
-                                <span class="font-bold text-sm md:text-base text-gray-200 group-hover:text-white">欢乐麻将</span>
+                                <img src="https://github.com/Freeloop993/guangzi/blob/main/image/512.png?raw=true" alt="欢乐麻将" class="w-7 h-7 md:w-8 md:h-8 rounded-md object-cover border border-brand-cyan/30 group-hover:border-brand-cyan transition-colors">
+                                <span class="font-bold text-sm md:text-base text-gray-300 group-hover:text-white">欢乐麻将</span>
                             </div>
                             <svg class="w-4 h-4 md:w-5 md:h-5 text-brand-cyan group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                         </div>
@@ -407,7 +410,7 @@
 
             <!-- Right: Long Image Display (Scrollable) -->
             <div class="glass-panel rounded-xl p-1 flex flex-col h-[380px] md:h-[500px]">
-                <div class="p-4 md:p-5 border-b border-brand-cyan/30 bg-gradient-to-r from-purple-900/40 to-transparent rounded-t-xl shrink-0">
+                <div class="p-4 md:p-5 border-b border-brand-cyan/20 bg-gradient-to-r from-purple-900/40 to-transparent rounded-t-xl shrink-0">
                     <h2 class="text-lg md:text-xl font-bold text-white flex items-center gap-2">
                         <span class="w-2 h-5 md:h-6 bg-purple-400 rounded-sm"></span>
                         活动详情概览
@@ -418,7 +421,7 @@
                 <!-- Scrollable Container -->
                 <div class="relative w-full flex-grow overflow-hidden bg-brand-primary/10 rounded-b-xl">
                     <div class="absolute inset-0 overflow-y-auto custom-scroll">
-                        <img src="https://cdn.discordapp.com/attachments/1452947232696434739/1452953372616294481/ac3072686866d200.jpg?ex=694bafc6&is=694a5e46&hm=c0143bec064e5a4fe1517153c7200b0b337460ea2ff68ac7f2add5469b2ec3c6&" 
+                        <img src="https://github.com/Freeloop993/guangzi/blob/main/image/ac3072686866d200.jpg?raw=true" 
                              alt="Activity Long Chart" 
                              class="w-full h-auto block">
                     </div>
@@ -427,7 +430,7 @@
         </section>
 
         <!-- New Section: Supplement Notice -->
-        <section class="glass-panel rounded-xl p-4 md:p-6 border-l-4 border-brand-cyan relative z-10 bg-brand-primary/20">
+        <section class="glass-panel rounded-xl p-4 md:p-6 border-l-4 border-brand-cyan relative z-10 bg-brand-primary/10">
             <h2 class="text-lg md:text-xl font-bold text-white mb-3 md:mb-4 flex items-center gap-2">
                 <svg class="w-5 h-5 md:w-6 md:h-6 text-brand-cyan" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                 补抽活动说明
@@ -436,42 +439,42 @@
             <div class="space-y-3 md:space-y-4">
                 <div class="flex flex-col md:flex-row md:items-center gap-2 md:gap-4 text-xs md:text-base">
                     <span class="text-brand-cyan font-bold whitespace-nowrap">⏳ 活动时间：</span>
-                    <span class="text-gray-200 bg-brand-primary/20 px-2 md:px-3 py-1 rounded border border-brand-cyan/40">12月20日 11:00 - 12月29日 19:00</span>
+                    <span class="text-gray-300 bg-brand-primary/20 px-2 md:px-3 py-1 rounded border border-brand-cyan/30">12月20日 11:00 - 12月29日 19:00</span>
                 </div>
 
                 <div>
                     <div class="text-brand-cyan font-bold mb-2 md:mb-3 flex items-center gap-2 text-sm md:text-base">
                         🎁 补抽奖项池 
-                        <span class="text-[10px] md:text-xs font-normal text-gray-300 border border-gray-500 px-1.5 rounded">(社群+官号轮空)</span>
+                        <span class="text-[10px] md:text-xs font-normal text-gray-400 border border-gray-600 px-1.5 rounded">(社群+官号轮空)</span>
                     </div>
                     
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-3">
-                        <div class="bg-brand-primary/10 p-2 rounded border border-brand-cyan/30 flex items-center justify-between group hover:border-brand-cyan/60 transition-colors">
-                            <span class="text-gray-200 text-xs md:text-sm">最终幻想14</span>
+                        <div class="bg-brand-primary/10 p-2 rounded border border-brand-cyan/30 flex items-center justify-between group hover:border-brand-cyan/50 transition-colors">
+                            <span class="text-gray-300 text-xs md:text-sm">最终幻想14</span>
                             <span class="text-brand-cyan font-bold text-xs md:text-sm">x2</span>
                         </div>
-                        <div class="bg-brand-primary/10 p-2 rounded border border-brand-cyan/30 flex items-center justify-between group hover:border-brand-cyan/60 transition-colors">
-                            <span class="text-gray-200 text-xs md:text-sm">高能英雄</span>
+                        <div class="bg-brand-primary/10 p-2 rounded border border-brand-cyan/30 flex items-center justify-between group hover:border-brand-cyan/50 transition-colors">
+                            <span class="text-gray-300 text-xs md:text-sm">高能英雄</span>
                             <span class="text-brand-cyan font-bold text-xs md:text-sm">x2</span>
                         </div>
-                        <div class="bg-brand-primary/10 p-2 rounded border border-brand-cyan/30 flex items-center justify-between group hover:border-brand-cyan/60 transition-colors">
-                            <span class="text-gray-200 text-xs md:text-sm">热血美职篮</span>
+                        <div class="bg-brand-primary/10 p-2 rounded border border-brand-cyan/30 flex items-center justify-between group hover:border-brand-cyan/50 transition-colors">
+                            <span class="text-gray-300 text-xs md:text-sm">热血美职篮</span>
                             <span class="text-brand-cyan font-bold text-xs md:text-sm">x2</span>
                         </div>
-                        <div class="bg-brand-primary/10 p-2 rounded border border-brand-cyan/30 flex items-center justify-between group hover:border-brand-cyan/60 transition-colors">
-                            <span class="text-gray-200 text-xs md:text-sm">金铲铲之战</span>
+                        <div class="bg-brand-primary/10 p-2 rounded border border-brand-cyan/30 flex items-center justify-between group hover:border-brand-cyan/50 transition-colors">
+                            <span class="text-gray-300 text-xs md:text-sm">金铲铲之战</span>
                             <span class="text-brand-cyan font-bold text-xs md:text-sm">x1</span>
                         </div>
-                        <div class="bg-brand-primary/10 p-2 rounded border border-brand-cyan/30 flex items-center justify-between group hover:border-brand-cyan/60 transition-colors">
-                            <span class="text-gray-200 text-xs md:text-sm">英雄杀</span>
+                        <div class="bg-brand-primary/10 p-2 rounded border border-brand-cyan/30 flex items-center justify-between group hover:border-brand-cyan/50 transition-colors">
+                            <span class="text-gray-300 text-xs md:text-sm">英雄杀</span>
                             <span class="text-brand-cyan font-bold text-xs md:text-sm">x1</span>
                         </div>
-                        <div class="bg-brand-primary/10 p-2 rounded border border-brand-cyan/30 flex items-center justify-between group hover:border-brand-cyan/60 transition-colors">
-                            <span class="text-gray-200 text-xs md:text-sm">自由幻想手游</span>
+                        <div class="bg-brand-primary/10 p-2 rounded border border-brand-cyan/30 flex items-center justify-between group hover:border-brand-cyan/50 transition-colors">
+                            <span class="text-gray-300 text-xs md:text-sm">自由幻想手游</span>
                             <span class="text-brand-cyan font-bold text-xs md:text-sm">x1</span>
                         </div>
-                        <div class="bg-brand-primary/10 p-2 rounded border border-brand-cyan/30 flex items-center justify-between group hover:border-brand-cyan/60 transition-colors">
-                            <span class="text-gray-200 text-xs md:text-sm">欢乐麻将</span>
+                        <div class="bg-brand-primary/10 p-2 rounded border border-brand-cyan/30 flex items-center justify-between group hover:border-brand-cyan/50 transition-colors">
+                            <span class="text-gray-300 text-xs md:text-sm">欢乐麻将</span>
                             <span class="text-brand-cyan font-bold text-xs md:text-sm">x3</span>
                         </div>
                     </div>
